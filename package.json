@@ -1,5 +1,5 @@
 {
-  "name": "eva-plugin-demo",
+  "name": "eva-plugin-joystick",
   "version": "0.1.0",
   "scripts": {
     "dev": "rollup -c rollup.config.dev.js -w",
@@ -10,8 +10,8 @@
   },
   "main": "index.js",
   "module": "./dist/plugin.esm.js",
-  "typings": "./dist/eva-plugin-demo.d.ts",
-  "bundle": "EVA.plugin.demo",
+  "typings": "./dist/eva-plugin-joystick.d.ts",
+  "bundle": "EVA.plugin.joystick",
   "keywords": [
     "eva.js",
     "plugin"

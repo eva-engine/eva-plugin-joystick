@@ -7239,18 +7239,19 @@
 	    };
 	    Joystick.prototype.bindTouch = function () {
 	        var _this = this;
-	        var evtGO = new GameObject$1('JoyStick_evt');
-	        var eventParam = {};
 	        if (this.followPointer.open) {
-	            eventParam = {
+	            var evtGO = new GameObject$1('JoyStick_evt');
+	            this.evt = evtGO.addComponent(new Event$1({
 	                hitArea: {
 	                    type: HIT_AREA_TYPE.Rect,
 	                    style: __assign({}, this.followPointer.area)
 	                }
-	            };
+	            }));
+	            this.gameObject.scene.addChild(evtGO);
 	        }
-	        this.evt = evtGO.addComponent(new Event$1(eventParam));
-	        this.gameObject.scene.addChild(evtGO);
+	        else {
+	            this.evt = this.gameObject.addComponent(new Event$1());
+	        }
 	        this.moving = false;
 	        this.evt.on('touchstart', function (e) {
 	            _this.moving = true;
