@@ -4,6 +4,10 @@
 
 ![](https://user-images.githubusercontent.com/4632277/128896471-de547d92-2c4f-4299-92b5-a7d3264ca6c0.png)
 
+注意事项：
+- 不要设置被添加游戏对象的宽高
+- 手指跟随的情况下无法使用anchor `待解决`
+
 ## Usage
 ```bash
 npm i eva-plugin-joystick

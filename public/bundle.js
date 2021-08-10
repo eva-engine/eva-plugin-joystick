@@ -7346,6 +7346,7 @@
 	    return Joystick;
 	}(Component$1));
 
+	var height = window.innerHeight / window.innerWidth * 750;
 	resource.addResource([
 	    {
 	        name: "box",
@@ -7380,18 +7381,19 @@
 	    systems: [
 	        new Renderer$3({
 	            canvas: document.querySelector('#canvas'),
-	            width: 800,
-	            height: 600,
+	            width: 750,
+	            height: height,
+	            enableScroll: false
 	        }),
 	        new Img$1(),
 	        new Event$3()
 	    ],
 	});
-	window.game = game;
 	game.scene.transform.size = {
-	    width: 800,
-	    height: 600
+	    width: 750,
+	    height: height,
 	};
+	window.game = game;
 	var tank = new GameObject$1('tank', {
 	    size: { width: 130, height: 130 },
 	    position: { x: 300, y: 200 },
@@ -7402,7 +7404,7 @@
 	}));
 	game.scene.addChild(tank);
 	var go = new GameObject$1('joystick', {
-	    position: { x: 200, y: 400 },
+	    position: { x: 750 / 2, y: height - 300 },
 	});
 	var joystick = go.addComponent(new Joystick({
 	    boxImageResource: 'box',
@@ -7411,8 +7413,8 @@
 	        open: true,
 	        area: {
 	            x: 0, y: 0,
-	            width: 400,
-	            height: 600
+	            width: 750,
+	            height: height
 	        }
 	    }
 	}));
@@ -7421,8 +7423,8 @@
 	});
 	joystick.on(JOYSTICK_EVENT.Drag, function (data) {
 	    console.log('drag', data);
-	    tank.transform.position.x += 5 * data.x;
-	    tank.transform.position.y += 5 * data.y;
+	    tank.transform.position.x += 15 * data.x;
+	    tank.transform.position.y += 15 * data.y;
 	    if (data.x > 0) {
 	        tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2;
 	    }

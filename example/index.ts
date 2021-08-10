@@ -4,7 +4,7 @@ import { RendererSystem } from '@eva/plugin-renderer';
 import { Event, EventSystem, HIT_AREA_TYPE } from '@eva/plugin-renderer-event';
 import { Img, ImgSystem } from '@eva/plugin-renderer-img';
 import { Joystick, JOYSTICK_EVENT } from '../src'
-
+const height = window.innerHeight / window.innerWidth * 750
 resource.addResource([
   {
     name: "box",
@@ -40,21 +40,21 @@ const game = new Game({
   systems: [
     new RendererSystem({
       canvas: document.querySelector('#canvas'),
-      width: 800,
-      height: 600,
+      width: 750,
+      height: height,
+      enableScroll: false
     }),
     new ImgSystem(),
     new EventSystem()
   ],
 });
 
+game.scene.transform.size = {
+  width: 750,
+  height: height,
+}
 window.game = game
 
-
-game.scene.transform.size = {
-  width: 800,
-  height: 600
-}
 
 const tank = new GameObject('tank', {
   size: { width: 130, height: 130 },
@@ -67,7 +67,7 @@ tank.addComponent(new Img({
 game.scene.addChild(tank)
 
 const go = new GameObject('joystick', {
-  position: { x: 200, y: 400 },
+  position: { x: 750/2, y: height - 300 },
 })
 
 const joystick = go.addComponent(new Joystick({
@@ -77,8 +77,8 @@ const joystick = go.addComponent(new Joystick({
     open: true,
     area: {
       x: 0, y: 0,
-      width: 400,
-      height: 600
+      width: 750,
+      height: height
     }
   }
 }))
@@ -89,8 +89,8 @@ joystick.on(JOYSTICK_EVENT.Begin, (data) => {
 joystick.on(JOYSTICK_EVENT.Drag, (data) => {
   console.log('drag', data)
 
-  tank.transform.position.x += 5 * data.x
-  tank.transform.position.y += 5 * data.y
+  tank.transform.position.x += 15 * data.x
+  tank.transform.position.y += 15 * data.y
 
   if (data.x > 0) {
     tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2
