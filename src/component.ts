@@ -1,5 +1,5 @@
 import { Component, GameObject, resource, RESOURCE_TYPE } from '@eva/eva.js'
-import { Event, EventParams, HIT_AREA_TYPE } from '@eva/plugin-renderer-event';
+import { Event, HIT_AREA_TYPE } from '@eva/plugin-renderer-event';
 import { Img } from '@eva/plugin-renderer-img';
 
 export enum JOYSTICK_EVENT {
