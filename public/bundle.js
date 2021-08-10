@@ -7203,7 +7203,7 @@
 	        _this.moving = false;
 	        _this.triggerTouchstart = false;
 	        _this.triggerTouchend = false;
-	        _this.followPointerCreated = false;
+	        _this.eventBinded = false;
 	        return _this;
 	    }
 	    Joystick.prototype.init = function (params) {
@@ -7216,11 +7216,11 @@
 	        this.initResource(params);
 	        this.boxGO = this.createGO('box', this.boxImageResource, this.boxRadius);
 	        this.btnGO = this.createGO('btn', this.btnImageResource, this.btnRadius, this.boxGO);
-	        this.bindTouch();
 	    };
 	    Joystick.prototype.update = function () {
-	        if (this.followPointer.open && !this.followPointerCreated && this.gameObject.transform.parent) {
-	            this.followPointerCreated = true;
+	        if (!this.eventBinded && this.gameObject.scene) {
+	            this.eventBinded = true;
+	            this.bindTouch();
 	            this.createFollowPointer();
 	        }
 	        if (this.triggerTouchstart) {
@@ -7319,10 +7319,11 @@
 	        if (!params.btnImageResource) {
 	            resource.addResource([{
 	                    type: RESOURCE_TYPE.IMAGE,
+	                    name: '_Joystick_btn',
 	                    src: {
 	                        image: {
 	                            type: 'png',
-	                            url: ''
+	                            url: 'https://raw.githubusercontent.com/fanmingfei/eva-plugin-joystick/main/public/btn.png'
 	                        }
 	                    }
 	                }]);
@@ -7330,10 +7331,11 @@
 	        if (!params.boxImageResource) {
 	            resource.addResource([{
 	                    type: RESOURCE_TYPE.IMAGE,
+	                    name: '_Joystick_box',
 	                    src: {
 	                        image: {
 	                            type: 'png',
-	                            url: ''
+	                            url: 'https://raw.githubusercontent.com/fanmingfei/eva-plugin-joystick/main/public/box.png'
 	                        }
 	                    }
 	                }]);
@@ -7381,9 +7383,8 @@
 	    height: 600
 	};
 	var go = new GameObject$1('joystick', {
-	    position: { x: 200, y: 200 },
+	    position: { x: 200, y: 400 },
 	});
-	game.scene.addChild(go);
 	var joystick = go.addComponent(new Joystick({
 	    boxImageResource: 'box',
 	    btnImageResource: 'btn',
@@ -7405,5 +7406,6 @@
 	joystick.on(JOYSTICK_EVENT.End, function (data) {
 	    console.log('end', data);
 	});
+	game.scene.addChild(go);
 
 }(PIXI));
