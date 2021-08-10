@@ -7365,6 +7365,15 @@
 	                url: "./btn.png"
 	            }
 	        }
+	    }, {
+	        name: "tank",
+	        type: RESOURCE_TYPE.IMAGE,
+	        src: {
+	            image: {
+	                type: "png",
+	                url: "./tank.png"
+	            }
+	        }
 	    }
 	]);
 	var game = new Game$1({
@@ -7383,6 +7392,15 @@
 	    width: 800,
 	    height: 600
 	};
+	var tank = new GameObject$1('tank', {
+	    size: { width: 130, height: 130 },
+	    position: { x: 300, y: 200 },
+	    origin: { x: 0.5, y: 0.5 }
+	});
+	tank.addComponent(new Img$3({
+	    resource: 'tank'
+	}));
+	game.scene.addChild(tank);
 	var go = new GameObject$1('joystick', {
 	    position: { x: 200, y: 400 },
 	});
@@ -7403,6 +7421,14 @@
 	});
 	joystick.on(JOYSTICK_EVENT.Drag, function (data) {
 	    console.log('drag', data);
+	    tank.transform.position.x += 5 * data.x;
+	    tank.transform.position.y += 5 * data.y;
+	    if (data.x > 0) {
+	        tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2;
+	    }
+	    else {
+	        tank.transform.rotation = Math.atan(data.y / data.x) - Math.PI / 2;
+	    }
 	});
 	joystick.on(JOYSTICK_EVENT.End, function (data) {
 	    console.log('end', data);
