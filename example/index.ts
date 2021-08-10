@@ -48,9 +48,8 @@ game.scene.transform.size = {
 }
 
 const go = new GameObject('joystick', {
-  position: { x: 200, y: 200 },
+  position: { x: 200, y: 400 },
 })
-game.scene.addChild(go)
 
 const joystick = go.addComponent(new Joystick({
   boxImageResource: 'box',
@@ -74,3 +73,5 @@ joystick.on(JOYSTICK_EVENT.Drag, (data) => {
 joystick.on(JOYSTICK_EVENT.End, (data) => {
   console.log('end', data)
 })
+
+game.scene.addChild(go)

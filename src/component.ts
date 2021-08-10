@@ -44,7 +44,7 @@ export default class Joystick extends Component<JoystickParams> {
   private triggerTouchstart = false
   private triggerTouchend = false
 
-  private followPointerCreated = false
+  private eventBinded = false
 
   init(params) {
     this.limitRadius = params.limitRadius || this.limitRadius
@@ -61,14 +61,13 @@ export default class Joystick extends Component<JoystickParams> {
 
     this.boxGO = this.createGO('box', this.boxImageResource, this.boxRadius)
     this.btnGO = this.createGO('btn', this.btnImageResource, this.btnRadius, this.boxGO)
-    this.bindTouch()
 
   }
 
   update() {
-
-    if (this.followPointer.open && !this.followPointerCreated && this.gameObject.transform.parent) {
-      this.followPointerCreated = true
+    if (!this.eventBinded && this.gameObject.scene) {
+      this.eventBinded = true
+      this.bindTouch()
       this.createFollowPointer()
     }
 
@@ -183,10 +182,11 @@ export default class Joystick extends Component<JoystickParams> {
     if (!params.btnImageResource) {
       resource.addResource([{
         type: RESOURCE_TYPE.IMAGE,
+        name: '_Joystick_btn',
         src: {
           image: {
             type: 'png',
-            url: ''
+            url: 'https://raw.githubusercontent.com/fanmingfei/eva-plugin-joystick/main/public/btn.png'
           }
         }
       }])
@@ -194,10 +194,11 @@ export default class Joystick extends Component<JoystickParams> {
     if (!params.boxImageResource) {
       resource.addResource([{
         type: RESOURCE_TYPE.IMAGE,
+        name: '_Joystick_box',
         src: {
           image: {
             type: 'png',
-            url: ''
+            url: 'https://raw.githubusercontent.com/fanmingfei/eva-plugin-joystick/main/public/box.png'
           }
         }
       }])
