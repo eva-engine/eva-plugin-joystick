@@ -95,18 +95,18 @@ export default class Joystick extends Component<JoystickParams> {
   }
 
   private bindTouch() {
-    const evtGO = new GameObject('JoyStick_evt')
-    let eventParam = {} as EventParams
     if (this.followPointer.open) {
-      eventParam = {
+      const evtGO = new GameObject('JoyStick_evt')
+      this.evt = evtGO.addComponent(new Event({
         hitArea: {
           type: HIT_AREA_TYPE.Rect,
           style: { ...this.followPointer.area }
         }
-      }
+      }))
+      this.gameObject.scene.addChild(evtGO)
+    } else {
+      this.evt = this.gameObject.addComponent(new Event())
     }
-    this.evt = evtGO.addComponent(new Event(eventParam))
-    this.gameObject.scene.addChild(evtGO)
 
     this.moving = false
     this.evt.on('touchstart', (e) => {
