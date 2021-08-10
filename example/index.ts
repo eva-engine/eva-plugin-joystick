@@ -42,7 +42,8 @@ const game = new Game({
       canvas: document.querySelector('#canvas'),
       width: 750,
       height: height,
-      enableScroll: false
+      enableScroll: false,
+      resolution: devicePixelRatio / 2
     }),
     new ImgSystem(),
     new EventSystem()

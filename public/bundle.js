@@ -7383,7 +7383,8 @@
 	            canvas: document.querySelector('#canvas'),
 	            width: 750,
 	            height: height,
-	            enableScroll: false
+	            enableScroll: false,
+	            resolution: devicePixelRatio / 2
 	        }),
 	        new Img$1(),
 	        new Event$3()
