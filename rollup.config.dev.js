@@ -7,13 +7,13 @@ import livereload from 'rollup-plugin-livereload';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 
-const publicDir = path.resolve(__dirname, 'public');
+const publicDir = path.resolve(__dirname, 'docs');
 const exampleDir = path.resolve(__dirname, 'example');
 
 export default {
   input: 'example/index.ts',
   output: {
-    file: 'public/bundle.js',
+    file: 'docs/bundle.js',
     format: 'iife',
     globals: {
       'pixi.js': 'PIXI',
