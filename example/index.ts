@@ -1,7 +1,31 @@
+import { resource, RESOURCE_TYPE } from '@eva/eva.js';
 import { Game, GameObject } from '@eva/eva.js';
 import { RendererSystem } from '@eva/plugin-renderer';
-import { Text, TextSystem } from '@eva/plugin-renderer-text';
-import { DemoSystem } from '../src'
+import { Event, EventSystem, HIT_AREA_TYPE } from '@eva/plugin-renderer-event';
+import { ImgSystem } from '@eva/plugin-renderer-img';
+import { Joystick, JOYSTICK_EVENT } from '../src'
+
+resource.addResource([
+  {
+    name: "box",
+    type: RESOURCE_TYPE.IMAGE,
+    src: {
+      image: {
+        type: "png",
+        url: "./box.png"
+      }
+    },
+  }, {
+    name: "btn",
+    type: RESOURCE_TYPE.IMAGE,
+    src: {
+      image: {
+        type: "png",
+        url: "./btn.png"
+      }
+    }
+  }
+])
 
 const game = new Game({
   systems: [
@@ -10,52 +34,43 @@ const game = new Game({
       width: 800,
       height: 600,
     }),
-    new TextSystem(),
-    new DemoSystem(),
+    new ImgSystem(),
+    new EventSystem()
   ],
 });
+
+window.game = game
+
 
 game.scene.transform.size = {
   width: 800,
   height: 600
 }
 
-const text = new GameObject("text", {
-  position: {
-    x: 0,
-    y: 0
-  },
-  origin: {
-    x: 0.5,
-    y: 0.5
-  },
-  anchor: {
-    x: 0.5,
-    y: 0.5
-  }
-});
+const go = new GameObject('joystick', {
+  position: { x: 200, y: 200 },
+})
+game.scene.addChild(go)
 
-text.addComponent(new Text({
-  text: "欢迎使用EVA互动游戏开发体系！",
-  style: {
-    fontFamily: "Arial",
-    fontSize: 36,
-    fontStyle: "italic",
-    fontWeight: "bold",
-    fill: ["#b35d9e", "#84c35f", "#ebe44f"], // gradient
-    fillGradientType: 1,
-    fillGradientStops: [0.1, 0.4],
-    stroke: "#4a1850",
-    strokeThickness: 5,
-    dropShadow: true,
-    dropShadowColor: "#000000",
-    dropShadowBlur: 4,
-    dropShadowAngle: Math.PI / 6,
-    dropShadowDistance: 6,
-    wordWrap: true,
-    wordWrapWidth: 400,
-    breakWords: true
+const joystick = go.addComponent(new Joystick({
+  boxImageResource: 'box',
+  btnImageResource: 'btn',
+  followPointer: {
+    open: true,
+    area: {
+      x: 0, y: 0,
+      width: 400,
+      height: 600
+    }
   }
-}));
+}))
 
-game.scene.addChild(text);
+joystick.on(JOYSTICK_EVENT.Begin, (data) => {
+  console.log('begin', data)
+})
+joystick.on(JOYSTICK_EVENT.Drag, (data) => {
+  console.log('drag', data)
+})
+joystick.on(JOYSTICK_EVENT.End, (data) => {
+  console.log('end', data)
+})
