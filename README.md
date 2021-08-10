@@ -5,6 +5,10 @@
 ![](https://user-images.githubusercontent.com/4632277/128896471-de547d92-2c4f-4299-92b5-a7d3264ca6c0.png)
 
 ## Usage
+```bash
+npm i eva-plugin-joystick
+```
+
 ```js
 import { Joystick } from 'eva-plugin-joystick'
 
