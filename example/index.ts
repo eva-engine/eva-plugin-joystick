@@ -87,11 +87,14 @@ const joystick = go.addComponent(new Joystick({
 joystick.on(JOYSTICK_EVENT.Begin, (data) => {
   console.log('begin', data)
 })
+let lastX = 0
 joystick.on(JOYSTICK_EVENT.Drag, (data) => {
-  console.log('drag', data)
+  // console.log('drag', data)
 
-  tank.transform.position.x += 15 * data.x
-  tank.transform.position.y += 15 * data.y
+  tank.transform.position.x += 0.8 * data.event.deltaTime * data.x
+  // console.log(~~tank.transform.position.y - lastX)
+  // lastX = ~~tank.transform.position.y
+  tank.transform.position.y += 0.8 * data.event.deltaTime  *data.y
 
   if (data.x > 0) {
     tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2

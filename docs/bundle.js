@@ -7217,21 +7217,21 @@
 	        this.boxGO = this.createGO('box', this.boxImageResource, this.boxRadius);
 	        this.btnGO = this.createGO('btn', this.btnImageResource, this.btnRadius, this.boxGO);
 	    };
-	    Joystick.prototype.update = function () {
+	    Joystick.prototype.update = function (e) {
 	        if (!this.eventBinded && this.gameObject.scene) {
 	            this.eventBinded = true;
 	            this.bindTouch();
 	            this.createFollowPointer();
 	        }
 	        if (this.triggerTouchstart) {
-	            this.emit(JOYSTICK_EVENT.Begin, __assign({}, this.vector2));
+	            this.emit(JOYSTICK_EVENT.Begin, __assign(__assign({}, this.vector2), { event: e }));
 	            this.triggerTouchstart = false;
 	        }
 	        if (this.moving) {
-	            this.emit(JOYSTICK_EVENT.Drag, __assign({}, this.vector2));
+	            this.emit(JOYSTICK_EVENT.Drag, __assign(__assign({}, this.vector2), { event: e }));
 	        }
 	        if (this.triggerTouchend) {
-	            this.emit(JOYSTICK_EVENT.End, __assign({}, this.vector2));
+	            this.emit(JOYSTICK_EVENT.End, __assign(__assign({}, this.vector2), { event: e }));
 	            this.triggerTouchend = false;
 	        }
 	        this.btnGO.transform.position.x = this.vector2.x * this.limitRadius;
@@ -7423,9 +7423,11 @@
 	    console.log('begin', data);
 	});
 	joystick.on(JOYSTICK_EVENT.Drag, function (data) {
-	    console.log('drag', data);
-	    tank.transform.position.x += 15 * data.x;
-	    tank.transform.position.y += 15 * data.y;
+	    // console.log('drag', data)
+	    tank.transform.position.x += 0.8 * data.event.deltaTime * data.x;
+	    // console.log(~~tank.transform.position.y - lastX)
+	    // lastX = ~~tank.transform.position.y
+	    tank.transform.position.y += 0.8 * data.event.deltaTime * data.y;
 	    if (data.x > 0) {
 	        tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2;
 	    }

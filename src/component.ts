@@ -64,7 +64,7 @@ export default class Joystick extends Component<JoystickParams> {
 
   }
 
-  update() {
+  update(e) {
     if (!this.eventBinded && this.gameObject.scene) {
       this.eventBinded = true
       this.bindTouch()
@@ -73,18 +73,21 @@ export default class Joystick extends Component<JoystickParams> {
 
     if (this.triggerTouchstart) {
       this.emit(JOYSTICK_EVENT.Begin, {
-        ...this.vector2
+        ...this.vector2,
+        event: e
       })
       this.triggerTouchstart = false
     }
     if (this.moving) {
       this.emit(JOYSTICK_EVENT.Drag, {
-        ...this.vector2
+        ...this.vector2,
+        event: e
       })
     }
     if (this.triggerTouchend) {
       this.emit(JOYSTICK_EVENT.End, {
-        ...this.vector2
+        ...this.vector2,
+        event: e
       })
       this.triggerTouchend = false
     }
