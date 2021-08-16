@@ -7224,14 +7224,14 @@
 	            this.createFollowPointer();
 	        }
 	        if (this.triggerTouchstart) {
-	            this.emit(JOYSTICK_EVENT.Begin, __assign(__assign({}, this.vector2), { event: e }));
+	            this.emit(JOYSTICK_EVENT.Begin, __assign(__assign({}, this.vector2), { updateParams: e }));
 	            this.triggerTouchstart = false;
 	        }
 	        if (this.moving) {
-	            this.emit(JOYSTICK_EVENT.Drag, __assign(__assign({}, this.vector2), { event: e }));
+	            this.emit(JOYSTICK_EVENT.Drag, __assign(__assign({}, this.vector2), { updateParams: e }));
 	        }
 	        if (this.triggerTouchend) {
-	            this.emit(JOYSTICK_EVENT.End, __assign(__assign({}, this.vector2), { event: e }));
+	            this.emit(JOYSTICK_EVENT.End, __assign(__assign({}, this.vector2), { updateParams: e }));
 	            this.triggerTouchend = false;
 	        }
 	        this.btnGO.transform.position.x = this.vector2.x * this.limitRadius;
@@ -7254,13 +7254,18 @@
 	        }
 	        this.moving = false;
 	        this.evt.on('touchstart', function (e) {
+	            var _a;
 	            _this.moving = true;
 	            _this.basePosition.x = e.data.position.x;
 	            _this.basePosition.y = e.data.position.y;
 	            _this.triggerTouchstart = true;
+	            _this.pointerId = (_a = e.data) === null || _a === void 0 ? void 0 : _a.pointerId;
 	        });
 	        this.evt.on('touchmove', function (e) {
+	            var _a;
 	            if (!_this.moving)
+	                return;
+	            if (undefined !== ((_a = e.data) === null || _a === void 0 ? void 0 : _a.pointerId) && _this.pointerId !== e.data.pointerId)
 	                return;
 	            var position = e.data.position;
 	            var vector2 = _this.vector2;
@@ -7276,7 +7281,10 @@
 	                vector2.y /= sqrt;
 	            }
 	        });
-	        var touchend = function () {
+	        var touchend = function (e) {
+	            var _a;
+	            if (undefined !== ((_a = e.data) === null || _a === void 0 ? void 0 : _a.pointerId) && _this.pointerId !== e.data.pointerId)
+	                return;
 	            _this.moving = false;
 	            _this.vector2.x = 0;
 	            _this.vector2.y = 0;
@@ -7424,10 +7432,10 @@
 	});
 	joystick.on(JOYSTICK_EVENT.Drag, function (data) {
 	    // console.log('drag', data)
-	    tank.transform.position.x += 0.8 * data.event.deltaTime * data.x;
+	    tank.transform.position.x += 0.8 * data.updateParams.deltaTime * data.x;
 	    // console.log(~~tank.transform.position.y - lastX)
 	    // lastX = ~~tank.transform.position.y
-	    tank.transform.position.y += 0.8 * data.event.deltaTime * data.y;
+	    tank.transform.position.y += 0.8 * data.updateParams.deltaTime * data.y;
 	    if (data.x > 0) {
 	        tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2;
 	    }

@@ -91,6 +91,9 @@ joystick.on(JOYSTICK_EVENT.Begin, (data) => {
   data.y
 })
 ```
+
+### 事件名
+
 参数为摇杆移动的二维向量，-1,1之间
 
 - JOYSTICK_EVENT.Begin
@@ -104,3 +107,33 @@ joystick.on(JOYSTICK_EVENT.Begin, (data) => {
 - JOYSTICK_EVENT.End
 
   摇杆结束事件
+
+
+### 回调函数参数
+- x 
+  
+  当前的joystick向量 x 值 -1 ～ 1 之间
+
+- y
+  
+  当前的joystick向量 y 值 -1 ～ 1 之间
+
+- updateParams
+
+  当前update事件的参数
+
+  - deltaTime: number;
+    
+    每帧间隔时间，可以用于物体匀速运动
+
+  - frameCount: number;
+
+    当前游戏总帧数
+
+  - currentTime: number;
+
+    当前游戏时间
+
+  - fps: number;
+
+    当前游戏帧率

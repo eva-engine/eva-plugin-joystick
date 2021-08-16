@@ -46,6 +46,8 @@ export default class Joystick extends Component<JoystickParams> {
 
   private eventBinded = false
 
+  private pointerId
+
   init(params) {
     this.limitRadius = params.limitRadius || this.limitRadius
 
@@ -74,20 +76,20 @@ export default class Joystick extends Component<JoystickParams> {
     if (this.triggerTouchstart) {
       this.emit(JOYSTICK_EVENT.Begin, {
         ...this.vector2,
-        event: e
+        updateParams: e
       })
       this.triggerTouchstart = false
     }
     if (this.moving) {
       this.emit(JOYSTICK_EVENT.Drag, {
         ...this.vector2,
-        event: e
+        updateParams: e
       })
     }
     if (this.triggerTouchend) {
       this.emit(JOYSTICK_EVENT.End, {
         ...this.vector2,
-        event: e
+        updateParams: e
       })
       this.triggerTouchend = false
     }
@@ -117,10 +119,12 @@ export default class Joystick extends Component<JoystickParams> {
       this.basePosition.x = e.data.position.x
       this.basePosition.y = e.data.position.y
       this.triggerTouchstart = true
+      this.pointerId = e.data?.pointerId
     })
 
     this.evt.on('touchmove', (e) => {
       if (!this.moving) return
+      if (undefined !== e.data?.pointerId && this.pointerId !== e.data.pointerId) return
       const position = e.data.position
 
       const vector2 = this.vector2
@@ -138,7 +142,8 @@ export default class Joystick extends Component<JoystickParams> {
         vector2.y /= sqrt
       }
     })
-    const touchend = () => {
+    const touchend = (e) => {
+      if (undefined !== e.data?.pointerId && this.pointerId !== e.data.pointerId) return
       this.moving = false
       this.vector2.x = 0
       this.vector2.y = 0
