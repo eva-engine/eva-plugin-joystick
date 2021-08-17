@@ -68,7 +68,7 @@ tank.addComponent(new Img({
 game.scene.addChild(tank)
 
 const go = new GameObject('joystick', {
-  position: { x: 750/2, y: height - 300 },
+  position: { x: 750 / 2, y: height - 300 },
 })
 
 const joystick = go.addComponent(new Joystick({
@@ -94,7 +94,7 @@ joystick.on(JOYSTICK_EVENT.Drag, (data) => {
   tank.transform.position.x += 0.8 * data.updateParams.deltaTime * data.x
   // console.log(~~tank.transform.position.y - lastX)
   // lastX = ~~tank.transform.position.y
-  tank.transform.position.y += 0.8 * data.updateParams.deltaTime  *data.y
+  tank.transform.position.y += 0.8 * data.updateParams.deltaTime * data.y
 
   if (data.x > 0) {
     tank.transform.rotation = Math.atan(data.y / data.x) + Math.PI / 2

@@ -1,4 +1,5 @@
 import { Component, GameObject, resource, RESOURCE_TYPE } from '@eva/eva.js'
+import type { UpdateParams } from '@eva/eva.js'
 import { Event, HIT_AREA_TYPE } from '@eva/plugin-renderer-event';
 import { Img } from '@eva/plugin-renderer-img';
 
@@ -6,6 +7,12 @@ export enum JOYSTICK_EVENT {
   Begin = 'Begin',
   Drag = 'Drag',
   End = 'End',
+}
+
+interface JoystickEventParams {
+  x: number,
+  y: number,
+  updateParams: UpdateParams
 }
 
 interface JoystickParams {
@@ -211,5 +218,23 @@ export default class Joystick extends Component<JoystickParams> {
         }
       }])
     }
+  }
+
+  emit(eventName: JOYSTICK_EVENT, ...args: [JoystickEventParams]): boolean
+  emit<T extends string>(eventName: Exclude<T, JOYSTICK_EVENT>, ...args: any[]): boolean
+  emit(en: string, ...args: any[]) {
+    return super.emit(en, ...args);
+  }
+
+  once(eventName: JOYSTICK_EVENT, fn: (arg: JoystickEventParams) => void, context?: any): this
+  once<T extends string>(eventName: Exclude<T, JOYSTICK_EVENT>, fn: (...args: any[]) => void, context?: any): this
+  once(en: string, fn: (...args: any[]) => void, context?: any) {
+    return super.once(en, fn, context);
+  }
+
+  on(eventName: JOYSTICK_EVENT, fn: (arg: JoystickEventParams) => void, context?: any): this
+  on<T extends string>(eventName: Exclude<T, JOYSTICK_EVENT>, fn: (...args: any[]) => void, context?: any): this
+  on(en: string, fn: (...args: any[]) => void, context?: any) {
+    return super.on(en, fn, context);
   }
 }
